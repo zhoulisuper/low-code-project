@@ -11,9 +11,9 @@ import {
   Result,
 } from "@alilc/antd-lowcode-materials"; // 此处需要修改
 
-import utils from "./utils";
+import utils from "../../utils";
 
-import * as __$$i18n from "./i18n";
+import * as __$$i18n from "../../i18n";
 
 import "./index.css";
 

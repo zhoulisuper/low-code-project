@@ -1,7 +1,7 @@
 import logo from './logo.svg'
 import './App.css'
-import Modal from './modal'
-import Form from './form'
+import Modal from './page/view/modal'
+import Form from './page/view/form'
 
 function App() {
   return (

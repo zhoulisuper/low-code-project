@@ -9,9 +9,9 @@ import {
   Button,
 } from "@alilc/antd-lowcode-materials";
 
-import utils from "./utils";
+import utils from "../../utils";
 
-import * as __$$i18n from "./i18n";
+import * as __$$i18n from "../../i18n";
 
 import "./index.css";
 

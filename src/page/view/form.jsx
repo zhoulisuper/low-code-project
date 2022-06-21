@@ -15,13 +15,13 @@ import {
   Icon,
 } from "@alilc/antd-lowcode-materials";
 
-import moment from "moment"
-
 import utils from "../../utils";
 
 import * as __$$i18n from "../../i18n";
 
 import "./index.css";
+
+import moment from "moment"
 
 class Sample$$Page extends React.Component {
   _context = this;
@@ -465,7 +465,7 @@ class Sample$$Page extends React.Component {
               placeholder=""
               popupClassName=""
               popupPlacement="bottomLeft"
-              popupVisible={false}
+              popupVisible={undefined}
               showSearch={true}
               size="large"
             />
@@ -525,7 +525,7 @@ class Sample$$Page extends React.Component {
               hourStep={1}
               inputReadOnly={false}
               minuteStep={15}
-              open={false}
+              open={undefined}
               popupClassName=""
               secondStep={10}
               use12Hours={false}

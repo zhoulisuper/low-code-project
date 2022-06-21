@@ -2,7 +2,11 @@
 // 例外：react 框架的导出名和各种组件名除外。
 import React from "react";
 
-import { Table } from "@alilc/antd-lowcode-materials";
+import {
+  Table,
+  Timeline,
+  Space, Tag 
+} from "@alilc/antd-lowcode-materials";
 
 import utils from "../../utils";
 
@@ -98,6 +102,7 @@ class Sample$$Page extends React.Component {
   $$ = () => [];
 
   getTable() {
+    // const { Space, Tag } = window.antd;
     return [
       {
         title: "Name",
@@ -132,7 +137,7 @@ class Sample$$Page extends React.Component {
               }
 
               return /*#__PURE__*/ React.createElement(
-                "span",
+                Tag,
                 {
                   color: color,
                   key: tag,
@@ -147,7 +152,7 @@ class Sample$$Page extends React.Component {
         key: "action",
         render: (text, record, index) =>
           /*#__PURE__*/ React.createElement(
-            React.Fragment,
+            Space,
             null,
             /*#__PURE__*/ React.createElement(
               "a",
@@ -167,14 +172,11 @@ class Sample$$Page extends React.Component {
   testFunc(e) {
     const { index } = e.target.dataset;
     console.log(index);
-    console.log("test aliLowcode func");
-    return /*#__PURE__*/ React.createElement(
-      "div",
-      {
-        className: "test-aliLowcode-func",
-      },
-      this.state.test
-    );
+    console.log("test aliLowcode func"); // return (
+    //   <div className="test-aliLowcode-func">
+    //     {this.state.test}
+    //   </div>
+    // );
   }
 
   onTableChange(newPagination, filters, sorter) {
@@ -264,6 +266,15 @@ class Sample$$Page extends React.Component {
           }.bind(this)}
           title=""
           footer=""
+        />
+        <Timeline
+          steps={[
+            { key: "timeLinei5wd", label: "时间轴" },
+            { key: "timeLinei5wx", label: "时间轴" },
+          ]}
+          mode="left"
+          pending={false}
+          reverse={false}
         />
       </div>
     );

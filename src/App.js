@@ -4,14 +4,23 @@ import Modal from './page/view/modal'
 import Form from './page/view/form'
 import AntdForm from './page/view/antdForm'
 import Table from './page/view/table'
+import Home from './components/Home'
+import { Provider } from 'mobx-react'
+import store from './components/Store'
+
+import PageA from './page/pageA'
 
 function App() {
   return (
     <div className="App">
-      {/* <Modal /> */}
-      <Form />
-      {/* <AntdForm /> */}
-      <Table />
+      <Provider store={store}>
+        {/* <Modal /> */}
+        {/* <Home /> */}
+        <Form />
+        {/* <AntdForm /> */}
+        <PageA />
+        {/* <Table /> */}
+      </Provider>
     </div>
   )
 }

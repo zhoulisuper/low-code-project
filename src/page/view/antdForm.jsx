@@ -1,81 +1,144 @@
+// 注意: 出码引擎注入的临时变量默认都以 "__$$" 开头，禁止在搭建的代码中直接访问。
+// 例外：react 框架的导出名和各种组件名除外。
 import React from "react";
-import { Button, Checkbox, Form, Input } from 'antd';
-import { useState } from 'react';
 
-const App = () => {
-const [formData, setFormData] = useState({name:'',code:'',age:''});
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  };
+import {
+  ConfigProvider,
+  Button,
+  Icon,
+} from "@alilc/antd-lowcode-materials";
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+import utils from "../../utils";
 
-const onValuesChange = (v)=>{
-    setFormData(v)
+import * as __$$i18n from "../../i18n";
+
+import "./index.css";
+
+
+
+class Sample$$Page extends React.Component {
+  _context = this;
+
+  constructor(props, context) {
+    super(props);
+
+    this.utils = utils;
+
+    __$$i18n._inject2(this);
+
+    this.state = { hello: "Hello AliLowCode" };
+  }
+
+  $ = () => null;
+
+  $$ = () => [];
+
+  testFunc() {
+    console.log("test aliLowcode func");
+    return /*#__PURE__*/ React.createElement(
+      "div",
+      {
+        className: "test-aliLowcode-func",
+      },
+      this.state.test
+    );
+  }
+
+  onClick() {
+    const ref = this.$("zhouliDemo");
+    console.log(ref);
+
+ 
+  }
+
+  render() {
+    const __$$context = this._context || this;
+    const { state } = __$$context;
+    return (
+      <div>
+        <ConfigProvider
+          theme={{primaryColor:"#ddd"}}
+          autoInsertSpaceInButton={false}
+          componentSize="small"
+          locale="zh-CN"
+          prefixCls=""
+          direction="ltr"
+          space="small"
+          virtual={false}
+        >
+          <Button
+            type="primary"
+            htmlType="button"
+            size="middle"
+            shape="default"
+            icon={<Icon type="SearchOutlined" size={14} />}
+            block={false}
+            danger={false}
+            ghost={false}
+            disabled={false}
+          >
+            主按钮
+          </Button>
+          <Button
+            type="primary"
+            htmlType="button"
+            size="middle"
+            shape="default"
+            icon={<Icon type="SearchOutlined" size={14} />}
+            block={false}
+            danger={false}
+            ghost={false}
+            disabled={false}
+            __events={{
+              eventDataList: [
+                {
+                  type: "componentEvent",
+                  name: "onClick",
+                  relatedEventName: "onClick",
+                },
+              ],
+              eventList: [
+                {
+                  name: "onClick",
+                  template:
+                    "onClick(event,${extParams}){\n// 点击按钮时的回调\nconsole.log('onClick', event);}",
+                  disabled: true,
+                },
+              ],
+            }}
+            onClick={function () {
+              this.onClick.apply(
+                this,
+                Array.prototype.slice.call(arguments).concat([])
+              );
+            }.bind(this)}
+          >
+            主按钮
+          </Button>
+        </ConfigProvider>
+      </div>
+    );
+  }
 }
 
+export default Sample$$Page;
 
-const options = [
-  { label: 'Apple', value: 'Apple' },
-  { label: 'Pear', value: 'Pear' },
-  { label: 'Orange', value: 'Orange' },
-];
+function __$$eval(expr) {
+  try {
+    return expr();
+  } catch (error) {}
+}
 
+function __$$evalArray(expr) {
+  const res = __$$eval(expr);
+  return Array.isArray(res) ? res : [];
+}
 
-  return (
-    <Form
-      name="basic"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 16,
-      }}
-      initialValues={formData}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
-      <Form.Item
-        label="name"
-        name="name"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="code"
-        name="code"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-        ]}
-      >
-        <Checkbox.Group options={options} />
-      </Form.Item>
-
-      <Form.Item
-        wrapperCol={{
-          offset: 8,
-          span: 16,
-        }}
-      >
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
-  );
-};
-
-export default App;
+function __$$createChildContext(oldContext, ext) {
+  const childContext = {
+    ...oldContext,
+    ...ext,
+  };
+  childContext.__proto__ = oldContext;
+  return childContext;
+}

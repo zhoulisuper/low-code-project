@@ -3,13 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@alifd/next": "^1.25.42",
+    "@alilc/lowcode-datasource-fetch-handler": "^1.0.1",
+    "@alilc/lowcode-plugin-inject": "^1.0.0",
+    "@alilc/lowcode-react-renderer": "^1.0.0",
+    "@alilc/lowcode-utils": "^1.0.10",
     "@alifd/pro-layout": "1.0.1-beta.6",
+    "@alilc/antd-lowcode-materials": "^1.0.8",
     "@alilc/lowcode-datasource-engine": "latest",
-    "@alilc/lowcode-datasource-fetch-handler": "latest",
     "@alilc/lowcode-materials": "^1.0.3",
     "@ant-design/colors": "^3.2.1",
-    "@alilc/antd-lowcode-materials": "^1.0.8",
     "@babel/core": "^7.16.0",
+    "@babel/plugin-proposal-class-properties": "^7.17.12",
+    "@babel/plugin-proposal-decorators": "^7.18.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.4",
@@ -39,6 +45,8 @@
     "jest-resolve": "^27.4.2",
     "jest-watch-typeahead": "^1.0.0",
     "mini-css-extract-plugin": "^2.4.5",
+    "mobx": "^6.6.0",
+    "mobx-react": "^7.5.0",
     "postcss": "^8.4.4",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-loader": "^6.2.1",
@@ -60,6 +68,7 @@
     "terser-webpack-plugin": "^5.2.5",
     "web-vitals": "^2.1.4",
     "webpack": "^5.64.4",
+    "node-sass": "^4.14.1",
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
     "workbox-webpack-plugin": "^6.4.1"
@@ -70,6 +79,11 @@
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
+    "parserOptions": {
+      "ecmaFeatures": {
+        "legacyDecorators": true
+      }
+    },
     "extends": [
       "react-app",
       "react-app/jest"
@@ -141,6 +155,20 @@
   "babel": {
     "presets": [
       "react-app"
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": true
+        }
+      ],
+      [
+        "@babel/plugin-proposal-class-properties",
+        {
+          "loose": true
+        }
+      ]
     ]
   }
 }

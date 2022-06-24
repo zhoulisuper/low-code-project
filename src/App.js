@@ -16,9 +16,9 @@ function App() {
       <Provider store={store}>
         {/* <Modal /> */}
         {/* <Home /> */}
-        <Form />
-        {/* <AntdForm /> */}
-        <PageA />
+        {/* <Form /> */}
+        <AntdForm />
+        {/* <PageA /> */}
         {/* <Table /> */}
       </Provider>
     </div>

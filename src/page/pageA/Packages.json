@@ -42,16 +42,16 @@
     "library": "Next"
   },
   {
-    "package": "@alilc/lowcode-materials",
-    "version": "1.0.3",
+    "package": "@alilc/antd-lowcode-materials",
+    "version": "1.0.8",
     "library": "AntdLowcode",
     "urls": [
-      "https://alifd.alicdn.com/npm/@alilc/lowcode-materials@1.0.3/build/antd-lowcode/view.js",
-      "https://alifd.alicdn.com/npm/@alilc/lowcode-materials@1.0.3/build/antd-lowcode/view.css"
+      "https://alifd.alicdn.com/npm/@alilc/antd-lowcode-materials@1.0.8/build/lowcode/view.js",
+      "https://alifd.alicdn.com/npm/@alilc/antd-lowcode-materials@1.0.8/build/lowcode/view.css"
     ],
     "editUrls": [
-      "https://alifd.alicdn.com/npm/@alilc/lowcode-materials@1.0.3/build/antd-lowcode/view.js",
-      "https://alifd.alicdn.com/npm/@alilc/lowcode-materials@1.0.3/build/antd-lowcode/view.css"
+      "https://alifd.alicdn.com/npm/@alilc/antd-lowcode-materials@1.0.8/build/lowcode/view.js",
+      "https://alifd.alicdn.com/npm/@alilc/antd-lowcode-materials@1.0.8/build/lowcode/view.css"
     ]
   }
 ]

@@ -21,7 +21,6 @@ import * as __$$i18n from "../../i18n";
 
 import "./index.css";
 
-import moment from "moment"
 
 class Sample$$Page extends React.Component {
   _context = this;
@@ -42,7 +41,7 @@ class Sample$$Page extends React.Component {
         brand: 2,
         category: ["zhejiang", "hangzhou", "xihu"],
         date: new Date(),
-        time: moment("12:08:23", "HH:mm:ss"),
+        time: undefined,
       },
       brandList: [
         {
@@ -465,7 +464,7 @@ class Sample$$Page extends React.Component {
               placeholder=""
               popupClassName=""
               popupPlacement="bottomLeft"
-              popupVisible={undefined}
+              popupVisible={false}
               showSearch={true}
               size="large"
             />
@@ -525,7 +524,7 @@ class Sample$$Page extends React.Component {
               hourStep={1}
               inputReadOnly={false}
               minuteStep={15}
-              open={undefined}
+              open={false}
               popupClassName=""
               secondStep={10}
               use12Hours={false}

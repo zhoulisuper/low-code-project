@@ -18,20 +18,33 @@ import {
   Modal,
 } from "@alilc/antd-lowcode-materials";
 
+import { createFetchHandler as __$$createFetchRequestHandler } from "@alilc/lowcode-datasource-fetch-handler";
+
+import { create as __$$createDataSourceEngine } from "@alilc/lowcode-datasource-engine/runtime";
+
 import utils, { RefsManager } from "../../utils";
 
 import * as __$$i18n from "../../i18n";
 
 import "./index.css";
-
 import moment from "moment"
-
-
-
 window.antd = require('antd')
-
 class Sample$$Page extends React.Component {
   _context = this;
+
+  _dataSourceConfig = this._defineDataSourceConfig();
+  _dataSourceEngine = __$$createDataSourceEngine(this._dataSourceConfig, this, {
+    runtimeConfig: true,
+    requestHandlersMap: { fetch: __$$createFetchRequestHandler() },
+  });
+
+  get dataSourceMap() {
+    return this._dataSourceEngine.dataSourceMap || {};
+  }
+
+  reloadDataSource = async () => {
+    await this._dataSourceEngine.reloadDataSource();
+  };
 
   constructor(props, context) {
     super(props);
@@ -71,8 +84,9 @@ class Sample$$Page extends React.Component {
       selectRowIds: [],
       relationCourseVisible: false,
       modalFormData: {
-        courseCode: "",
+        courseCode: "33",
       },
+      selectLabel: -1,
     };
   }
 
@@ -83,6 +97,49 @@ class Sample$$Page extends React.Component {
   $$ = (refName) => {
     return this._refsManager.getAll(refName);
   };
+
+  _defineDataSourceConfig() {
+    const _this = this;
+    return {
+      list: [
+        {
+          type: "fetch",
+          isInit: function () {
+            return true;
+          },
+          options: function () {
+            return {
+              params: {
+                condition: '{"bucket_name":"static-service"}',
+                pageNumber: _this.state.paging.current,
+                pageSize: _this.state.paging.pageSize,
+              },
+              method: "POST",
+              isCors: true,
+              timeout: 5000,
+              headers: {},
+              uri: "https://bapi-ptc.grtcloud.net/ObsService/mediaList",
+            };
+          },
+          shouldFetch: function () {
+            return true;
+          },
+          dataHandler: function (res) {
+            _this.setState({
+              list: res.data.list,
+              paging: {
+                current: res.data.pageNumber,
+                pageSize: res.data.pageSize,
+                total: res.data.totalCount,
+              },
+            });
+          },
+          id: "getList",
+          errorHandler: function (err) {},
+        },
+      ],
+    };
+  }
 
   tree(data) {
     let map = {};
@@ -111,19 +168,19 @@ class Sample$$Page extends React.Component {
     const menuClick = (v, row) => {
       switch (v.key) {
         case "publish":
-          console.log(v.key, row.id);
+          console.log(v.key, row);
           break;
 
         case "view":
-          console.log(v.key, row.id);
+          console.log(v.key, row);
           break;
 
         case "copy":
-          console.log(v.key, row.id);
+          console.log(v.key, row);
           break;
 
         case "delete":
-          console.log(v.key, row.id);
+          console.log(v.key, row);
           break;
       }
     };
@@ -196,6 +253,7 @@ class Sample$$Page extends React.Component {
                   this.onEdit(e, record);
                 },
               },
+              // /*#__PURE__*/ React.createElement(EditOutlined, null)
             ),
             /*#__PURE__*/ React.createElement(
               Dropdown,
@@ -244,6 +302,7 @@ class Sample$$Page extends React.Component {
                   size: "small",
                 },
                 "\u66F4\u591A",
+                // /*#__PURE__*/ React.createElement(CaretDownOutlined, null)
               )
             )
           ),
@@ -291,7 +350,13 @@ class Sample$$Page extends React.Component {
       pageNum: this.state.paging.current,
       pageSize: this.state.paging.pageSize,
     });
-    console.log(params, "请求接口");
+    this.dataSourceMap["getList"].load({
+      condition: {
+        bucket_name: "static-service",
+      },
+      pageNumber: 3,
+      pageSize: 10,
+    });
   }
 
   tabChange(v) {
@@ -364,6 +429,8 @@ class Sample$$Page extends React.Component {
   }
 
   componentDidMount() {
+    this._dataSourceEngine.reloadDataSource();
+
     const statusArray = [
       {
         label: "全部",
@@ -380,54 +447,6 @@ class Sample$$Page extends React.Component {
       {
         label: "已下架",
         value: 2,
-      },
-    ];
-    const listArray = [
-      {
-        id: "553798143458246656",
-        name: "思修",
-        source: 0,
-        duration: "0",
-        createTime: 1644219308000,
-        transState: "2",
-        logoPath: "",
-        publishState: "0",
-        validity: 0,
-        validityEndTime: null,
-        isExpire: false,
-        platformRange: "1",
-        originalId: "-1",
-        closedState: "0",
-        thirdCourse: 0,
-        thirdPlatform: -1,
-        thirdPlatformName: null,
-        thirdCourseUrl: null,
-        teachers: "",
-        thirdCourseTeacher: "",
-        openCourseFlag: 0,
-      },
-      {
-        id: "55379814345824669956",
-        name: "课程",
-        source: 0,
-        duration: "0",
-        createTime: 1644219308000,
-        transState: "2",
-        logoPath: "",
-        publishState: "0",
-        validity: 0,
-        validityEndTime: null,
-        isExpire: false,
-        platformRange: "1",
-        originalId: "-1",
-        closedState: "0",
-        thirdCourse: 0,
-        thirdPlatform: -1,
-        thirdPlatformName: null,
-        thirdCourseUrl: null,
-        teachers: "",
-        thirdCourseTeacher: "",
-        openCourseFlag: 0,
       },
     ];
     const treeMap = [
@@ -926,7 +945,6 @@ class Sample$$Page extends React.Component {
       statusList: [...statusArray],
       sourceList: [...statusArray],
       transcodeList: [...statusArray],
-      list: [...listArray],
       categoryPlatform: [...this.tree(treeMap)],
       category: [...this.tree(treeMap)],
     });
@@ -1148,111 +1166,126 @@ class Sample$$Page extends React.Component {
                 defaultActiveKey={__$$eval(() => this.state.tabActive)}
               >
                 <Tabs.TabPane key="one" tab="课程类目" disabled={false}>
-                  {!!__$$eval(() => this.state.categoryPlatform.length > 0) && (
-                    <Tree
-                      treeData={__$$eval(() => this.state.category)}
-                      defaultExpandAll={true}
-                      autoExpandParent={true}
-                      blockNode={false}
-                      checkable={false}
-                      checkStrictly={false}
-                      defaultExpandParent={true}
-                      disabled={false}
-                      draggable={false}
-                      multiple={false}
-                      selectable={true}
-                      showIcon={false}
-                      virtual={true}
-                      __events={{
-                        eventDataList: [
-                          {
-                            type: "componentEvent",
-                            name: "onSelect",
-                            relatedEventName: "onTreeSelect",
-                          },
+                  <Tree
+                    treeData={[
+                      {
+                        title: "parent 0",
+                        key: "0-0",
+                        children: [
+                          { title: "leaf 0-0", key: "0-0-0", isLeaf: true },
+                          { title: "leaf 0-1", key: "0-0-1", isLeaf: true },
                         ],
-                        eventList: [
-                          {
-                            name: "onCheck",
-                            template:
-                              "onCheck(checkedKeys,event,${extParams}){\n// 点击复选框触发\nconsole.log('onCheck',checkedKeys,event);}",
-                            disabled: false,
-                          },
-                          {
-                            name: "onDragEnd",
-                            template:
-                              "onDragEnd({event,node},${extParams}){\n// dragend 触发时调用\nconsole.log('onDragEnd',event,node);}",
-                            disabled: false,
-                          },
-                          {
-                            name: "onDragEnter",
-                            template:
-                              "onDragEnter({event,node,expandedKeys},${extParams}){\n// dragenter 触发时调用\nconsole.log('onDragEnter',event,node,expandedKeys);}",
-                            disabled: false,
-                          },
-                          {
-                            name: "onDragLeave",
-                            template:
-                              "onDragLeave({event,node},${extParams}){\n// dragleave 触发时调用\nconsole.log('onDragLeave',event,node);}",
-                            disabled: false,
-                          },
-                          {
-                            name: "onDragOver",
-                            template:
-                              "onDragOver({event,node},${extParams}){\n// dragover 触发时调用\nconsole.log('onDragOver',event,node);}",
-                            disabled: false,
-                          },
-                          {
-                            name: "onDragStart",
-                            template:
-                              "onDragStart({event,node},${extParams}){\n// 开始拖拽时调用\nconsole.log('onDragStart',event,node);}",
-                            disabled: false,
-                          },
-                          {
-                            name: "onDrop",
-                            template:
-                              "onDrop({event,node,dragNode,dragNodesKeys},${extParams}){\n// drop 触发时调用\nconsole.log('onDrop',event,node,dragNode,dragNodesKeys);}",
-                            disabled: false,
-                          },
-                          {
-                            name: "onExpand",
-                            template:
-                              "onExpand(expandedKeys,{expanded,node},${extParams}){\n// 展开/收起节点时触发\nconsole.log('onExpand',expandedKeys,expanded,node);}",
-                            disabled: false,
-                          },
-                          {
-                            name: "onLoad",
-                            template:
-                              "onLoad(loadedKeys,{event,node},${extParams}){\n// 节点加载完毕时触发\nconsole.log('onLoad',loadedKeys,event,node);}",
-                            disabled: false,
-                          },
-                          {
-                            name: "onRightClick",
-                            template:
-                              "onRightClick({event,node},${extParams}){\n// 响应右键点击\nconsole.log('onRightClick',event,node);}",
-                            disabled: false,
-                          },
-                          {
-                            name: "onSelect",
-                            template:
-                              "onSelect(selectedKeys,event,${extParams}){\n// 点击树节点触发\nconsole.log('onSelect',selectedKeys,event);}",
-                            disabled: true,
-                          },
+                      },
+                      {
+                        title: "parent 1",
+                        key: "0-1",
+                        children: [
+                          { title: "leaf 1-0", key: "0-1-0", isLeaf: true },
+                          { title: "leaf 1-1", key: "0-1-1", isLeaf: true },
                         ],
-                      }}
-                      onSelect={function () {
-                        this.onTreeSelect.apply(
-                          this,
-                          Array.prototype.slice.call(arguments).concat([])
-                        );
-                      }.bind(this)}
-                    />
-                  )}
+                      },
+                    ]}
+                    defaultExpandAll={true}
+                    autoExpandParent={true}
+                    blockNode={false}
+                    checkable={false}
+                    checkStrictly={false}
+                    defaultExpandParent={true}
+                    disabled={false}
+                    draggable={false}
+                    multiple={false}
+                    selectable={true}
+                    showIcon={false}
+                    virtual={true}
+                    __events={{
+                      eventDataList: [
+                        {
+                          type: "componentEvent",
+                          name: "onSelect",
+                          relatedEventName: "onTreeSelect",
+                        },
+                      ],
+                      eventList: [
+                        {
+                          name: "onCheck",
+                          template:
+                            "onCheck(checkedKeys,event,${extParams}){\n// 点击复选框触发\nconsole.log('onCheck',checkedKeys,event);}",
+                          disabled: false,
+                        },
+                        {
+                          name: "onDragEnd",
+                          template:
+                            "onDragEnd({event,node},${extParams}){\n// dragend 触发时调用\nconsole.log('onDragEnd',event,node);}",
+                          disabled: false,
+                        },
+                        {
+                          name: "onDragEnter",
+                          template:
+                            "onDragEnter({event,node,expandedKeys},${extParams}){\n// dragenter 触发时调用\nconsole.log('onDragEnter',event,node,expandedKeys);}",
+                          disabled: false,
+                        },
+                        {
+                          name: "onDragLeave",
+                          template:
+                            "onDragLeave({event,node},${extParams}){\n// dragleave 触发时调用\nconsole.log('onDragLeave',event,node);}",
+                          disabled: false,
+                        },
+                        {
+                          name: "onDragOver",
+                          template:
+                            "onDragOver({event,node},${extParams}){\n// dragover 触发时调用\nconsole.log('onDragOver',event,node);}",
+                          disabled: false,
+                        },
+                        {
+                          name: "onDragStart",
+                          template:
+                            "onDragStart({event,node},${extParams}){\n// 开始拖拽时调用\nconsole.log('onDragStart',event,node);}",
+                          disabled: false,
+                        },
+                        {
+                          name: "onDrop",
+                          template:
+                            "onDrop({event,node,dragNode,dragNodesKeys},${extParams}){\n// drop 触发时调用\nconsole.log('onDrop',event,node,dragNode,dragNodesKeys);}",
+                          disabled: false,
+                        },
+                        {
+                          name: "onExpand",
+                          template:
+                            "onExpand(expandedKeys,{expanded,node},${extParams}){\n// 展开/收起节点时触发\nconsole.log('onExpand',expandedKeys,expanded,node);}",
+                          disabled: false,
+                        },
+                        {
+                          name: "onLoad",
+                          template:
+                            "onLoad(loadedKeys,{event,node},${extParams}){\n// 节点加载完毕时触发\nconsole.log('onLoad',loadedKeys,event,node);}",
+                          disabled: false,
+                        },
+                        {
+                          name: "onRightClick",
+                          template:
+                            "onRightClick({event,node},${extParams}){\n// 响应右键点击\nconsole.log('onRightClick',event,node);}",
+                          disabled: false,
+                        },
+                        {
+                          name: "onSelect",
+                          template:
+                            "onSelect(selectedKeys,event,${extParams}){\n// 点击树节点触发\nconsole.log('onSelect',selectedKeys,event);}",
+                          disabled: true,
+                        },
+                      ],
+                    }}
+                    onSelect={function () {
+                      this.onTreeSelect.apply(
+                        this,
+                        Array.prototype.slice.call(arguments).concat([])
+                      );
+                    }.bind(this)}
+                  />
                 </Tabs.TabPane>
                 <Tabs.TabPane key="two" tab="平台课程分类" disabled={false}>
                   {!!__$$eval(() => this.state.category.length > 0) && (
                     <Tree
-                      treeData={__$$eval(() => this.state.categoryPlatform)}
+                      treeData={__$$eval(() => this.state.category)}
                       defaultExpandAll={false}
                       autoExpandParent={true}
                       blockNode={false}
@@ -1608,7 +1641,7 @@ class Sample$$Page extends React.Component {
               <Table
                 dataSource={__$$eval(() => this.state.list)}
                 columns={__$$eval(() => this.getTableColumns())}
-                rowKey="id"
+                rowKey="_id"
                 pagination={{
                   pageSize: __$$eval(() => this.state.paging.pageSize),
                   total: __$$eval(() => this.state.paging.total),

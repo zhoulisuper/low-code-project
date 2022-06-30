@@ -12,6 +12,10 @@ import {
   Tree,
   Form,
   Input,
+  Dropdown,
+  Typography,
+  Icon,
+  Menu,
   Select,
   DatePicker,
   Table,
@@ -27,8 +31,11 @@ import utils, { RefsManager } from "../../utils";
 import * as __$$i18n from "../../i18n";
 
 import "./index.css";
+
+
 import moment from "moment"
 window.antd = require('antd')
+
 class Sample$$Page extends React.Component {
   _context = this;
 
@@ -84,9 +91,29 @@ class Sample$$Page extends React.Component {
       selectRowIds: [],
       relationCourseVisible: false,
       modalFormData: {
-        courseCode: "33",
+        courseCode: "",
       },
-      selectLabel: -1,
+      selectLabel: "课程名称",
+      labelList: [
+        [
+          {
+            key: "课程名称",
+            label: "课程名称",
+          },
+          {
+            key: "课程ID",
+            label: "课程ID",
+          },
+          {
+            key: "讲师ID",
+            label: "讲师ID",
+          },
+          {
+            key: "课程编码",
+            label: "课程编码",
+          },
+        ],
+      ],
     };
   }
 
@@ -426,6 +453,13 @@ class Sample$$Page extends React.Component {
     }
 
     console.log(this.state.selectRowIds);
+  }
+
+  onClick({ key }) {
+    console.log(key);
+    this.setState({
+      selectLabel: key,
+    });
   }
 
   componentDidMount() {
@@ -951,8 +985,35 @@ class Sample$$Page extends React.Component {
   }
 
   render() {
+    const handleChange = ({key})=>{
+      // e.stopPropagation()
+      console.log(key)
+    }
     const __$$context = this._context || this;
     const { state } = __$$context;
+      const menu = (
+      <Menu
+      onClick={handleChange}
+        items={[
+          {
+            key: '课程名称',
+            label:'课程名称',
+          },
+          {
+            key: '课程ID',
+            label: '课程ID',
+          },
+          {
+            key: '讲师ID',
+            label: '讲师ID',
+          },
+          {
+            key: '课程编码',
+            label: '课程编码',
+          },
+        ]}
+      />
+    );
     return (
       <div>
         <Card
@@ -1399,6 +1460,7 @@ class Sample$$Page extends React.Component {
                 preserve={true}
                 scrollToFirstError={true}
                 size="middle"
+                autoComplete="off"
                 validateMessages={{ required: "'${name}' 不能为空" }}
                 __events={{
                   eventDataList: [
@@ -1445,7 +1507,88 @@ class Sample$$Page extends React.Component {
                 <Row align="top" justify="start" wrap={false}>
                   <Col span={8}>
                     <Form.Item
-                      label="课程名称"
+                         label={
+                          <Dropdown
+                            overlay={
+                              <Menu
+                                mode="inline"
+                                defaultSelectedKeys={["1"]}
+                                defaultOpenKeys={["sub1"]}
+                                theme="dark"
+                                items={__$$eval(() => this.state.labelList)}
+                                forceSubMenuRender={false}
+                                inlineCollapsed={false}
+                                inlineIndent={0}
+                                multiple={false}
+                                openKeys={[]}
+                                selectable={false}
+                                selectedKeys={[]}
+                                subMenuCloseDelay={0}
+                                subMenuOpenDelay={0}
+                                triggerSubMenuAction="hover"
+                                __events={{
+                                  eventDataList: [
+                                    {
+                                      type: "componentEvent",
+                                      name: "onClick",
+                                      relatedEventName: "onClick",
+                                    },
+                                  ],
+                                  eventList: [
+                                    {
+                                      name: "onClick",
+                                      template:
+                                        "onClick({item,key,keyPath,domEvent},${extParams}){\n// 点击 MenuItem 调用此函数\nconsole.log('onClick',item,key,keyPath,domEvent);}",
+                                      disabled: true,
+                                    },
+                                    {
+                                      name: "onDeselect",
+                                      template:
+                                        "onDeselect({item,key,keyPath,selectedKeys,domEvent},${extParams}){\n// 取消选中时调用，仅在 multiple 生效\nconsole.log('onDeselect',item,key,keyPath,selectedKeys,domEvent);}",
+                                      disabled: false,
+                                    },
+                                    {
+                                      name: "onOpenChange",
+                                      template:
+                                        "onOpenChange(openKeys,${extParams}){\n// SubMenu 展开/关闭的回调\nconsole.log('onOpenChange',openKeys);}",
+                                      disabled: false,
+                                    },
+                                    {
+                                      name: "onSelect",
+                                      template:
+                                        "onSelect({item,key,keyPath,selectedKeys,domEvent},${extParams}){\n// 被选中时调用\nconsole.log('onSelect',item,key,keyPath,selectedKeys,domEvent);}",
+                                      disabled: false,
+                                    },
+                                  ],
+                                }}
+                                onClick={function () {
+                                  this.onClick.apply(
+                                    this,
+                                    Array.prototype.slice
+                                      .call(arguments)
+                                      .concat([])
+                                  );
+                                }.bind(this)}
+                              />
+                            }
+                            arrow={true}
+                            disabled={false}
+                            placement="bottomLeft"
+                            trigger={[]}
+                            visible={undefined}
+                          >
+                            <Typography.Link href="" target="_self" onClick={e => e.preventDefault()}>
+                              {__$$eval(() => this.state.selectLabel)}
+                            </Typography.Link>
+                          </Dropdown>
+                        }
+                        name="username"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your username!',
+                          },
+                        ]}
                       labelAlign="right"
                       colon={true}
                       required={false}
@@ -1455,7 +1598,6 @@ class Sample$$Page extends React.Component {
                       typeobj={{ type: "", message: "" }}
                       lenobj={{ max: "", min: "", message: "" }}
                       patternobj={{ pattern: "", message: "" }}
-                      name="name"
                       initialValue={__$$eval(() => this.state.formData.name)}
                     >
                       <Input

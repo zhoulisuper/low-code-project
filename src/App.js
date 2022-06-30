@@ -4,6 +4,8 @@ import Modal from './page/view/modal'
 import Form from './page/view/form'
 import AntdForm from './page/view/antdForm'
 import Table from './page/view/table'
+import TablePro from './page/view/tablePro'
+import Tree from './page/view/tree'
 import Home from './components/Home'
 import { Provider } from 'mobx-react'
 import store from './components/Store'
@@ -17,7 +19,9 @@ function App() {
         {/* <Modal /> */}
         {/* <Home /> */}
         {/* <Form /> */}
-        <AntdForm />
+        {/* <Tree /> */}
+        <TablePro />
+        {/* <AntdForm /> */}
         {/* <PageA /> */}
         {/* <Table /> */}
       </Provider>

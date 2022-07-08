@@ -24,6 +24,7 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.19.5",
+    "array-move": "^4.0.0",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
     "babel-plugin-named-asset-import": "^0.3.8",
@@ -62,6 +63,9 @@
     "react-dev-utils": "^12.0.1",
     "react-dom": "^16.9.0",
     "react-refresh": "^0.11.0",
+    "react-router": "^6.3.0",
+    "react-scripts": "^5.0.1",
+    "react-sortable-hoc": "^2.0.0",
     "resolve": "^1.20.0",
     "resolve-url-loader": "^4.0.0",
     "sass-loader": "^12.3.0",
@@ -78,9 +82,9 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "start": "react-app-rewired start  export NODE_OPTIONS=--max_old_space_size=4096",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test"
   },
   "eslintConfig": {
     "parserOptions": {
@@ -174,5 +178,10 @@
         }
       ]
     ]
+  },
+  "devDependencies": {
+    "@rescripts/cli": "^0.0.16",
+    "customize-cra": "^1.0.0",
+    "react-app-rewired": "^2.2.1"
   }
 }

@@ -21,6 +21,7 @@ import "./index.css";
 
 import moment from "moment"
 window.antd = require('antd')
+window.icons = require('@ant-design/icons')
 
 class Sample$$Page extends React.Component {
   _context = this;

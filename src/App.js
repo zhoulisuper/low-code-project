@@ -1,31 +1,29 @@
-import logo from './logo.svg'
-import './App.css'
-import Modal from './page/view/modal'
-import Form from './page/view/form'
+import { Router, Route,} from 'react-router'
+
+
+// import Modal from './page/view/modal'
+// import Form from './page/view/form'
 import AntdForm from './page/view/antdForm'
 import Table from './page/view/table'
-import TablePro from './page/view/tablePro'
 import Tree from './page/view/tree'
-import Home from './components/Home'
-import { Provider } from 'mobx-react'
-import store from './components/Store'
+// import Home from './components/Home'
+// import { Provider } from 'mobx-react'
+// import store from './components/Store'
+import TableSub from './page/view/tableSub'
+// import PageB from './page/view/pageB'
 
-import PageA from './page/pageA'
+
 
 function App() {
   return (
-    <div className="App">
-      <Provider store={store}>
-        {/* <Modal /> */}
-        {/* <Home /> */}
-        {/* <Form /> */}
-        {/* <Tree /> */}
-        <TablePro />
-        {/* <AntdForm /> */}
-        {/* <PageA /> */}
-        {/* <Table /> */}
-      </Provider>
-    </div>
+    <Router>
+    <Route path="/" component={Table}>
+      <Route path="about" component={Tree} />
+      <Route path="inbox" component={AntdForm}>
+        <Route path="messages" component={TableSub} />
+      </Route>
+    </Route>
+  </Router>
   )
 }
 

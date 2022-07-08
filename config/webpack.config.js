@@ -219,6 +219,7 @@ module.exports = function (webpackEnv) {
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
+      // publicPath: '/lowcodeApp/',
       publicPath: paths.publicUrlOrPath,
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction
@@ -228,6 +229,22 @@ module.exports = function (webpackEnv) {
               .replace(/\\/g, '/')
         : isEnvDevelopment &&
           (info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')),
+    },
+    devServer: (_) => {
+      const config = _;
+  
+      config.headers = {
+        'Access-Control-Allow-Origin': '*',
+      };
+      config.historyApiFallback = true;
+      config.hot = false;
+      config.watchContentBase = false;
+      config.liveReload = false;
+  
+      return config;
+    },
+    externals:{
+      "@alilc/lowcode-engine": "var window.AliLowCodeEngine",
     },
     cache: {
       type: 'filesystem',
